@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "yogaprasad/samplejavaproject"  // Docker image name without tag
+        DOCKER_REGISTRY = 'dockerhub'  // Docker registry (you can change it if needed)
+        MAVEN_HOME = '/usr/local/apache-maven'  // Update this with your Maven installation path
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the repository
+                git branch: 'main', url: 'https://github.com/yogaprasadd/SampleJavaProject.git'
+            }
+        }
+        stage('Build with Maven') {
+            steps {
+                // Run Maven to clean and install the project
+                sh 'mvn clean install'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image
+                    sh "docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} ."
+                }
+            }
+        }
+        stage('Push Docker Image to Registry') {
+            steps {
+                script {
+                    // Log in to Docker Hub (you'll need to set up credentials in Jenkins)
+                    withCredentials([usernamePassword(credentialsId: '123', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    }
+
+                    // Push the Docker image to the registry
+                    sh "docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                }
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Run the Docker container
+                    sh "docker run -d -p 8081:8080 ${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up or notify after the build (success or failure)
+            echo 'Build finished'
+        }
+        success {
+            echo 'Build and deployment succeeded'
+        }
+        failure {
+            echo 'Build or deployment failed'
+        }
+    }
+}
+
