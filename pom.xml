@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>SampleJavaProject</name>
-    <description>Sample Java Project for Docker</description>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -18,24 +18,25 @@
     </properties>
 
     <dependencies>
-        <!-- JUnit 5 dependencies for testing -->
+        <!-- JUnit 5 Dependency -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.7.2</version>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.2</version>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Other dependencies -->
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Maven Compiler Plugin to specify Java version -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -45,22 +46,7 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-
-            <!-- Maven Jar Plugin to specify the Main-Class in the manifest -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Main-Class>com.yogaprasad.MainClass</Main-Class> <!-- Update this to your main class -->
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-
 </project>
 

@@ -1,14 +1,15 @@
 package com.yogaprasad;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MainClassTest {  // Change class name to MainClassTest
-
+public class MainClassTest {
+    
     @Test
-    public void testMainClass() {
-        MainClass mainClass = new MainClass();  // Testing MainClass
-        assertEquals("Hello, World!", mainClass.sayHello());
+    public void testSayHello() {
+        MainClass mainClass = new MainClass();
+        String result = mainClass.sayHello();
+        assertEquals("Hello, World!", result);
     }
 }
 
